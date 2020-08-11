@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-
-class QuestionBox extends Component {
-
+class QuestionList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,39 +19,22 @@ class QuestionBox extends Component {
           isLoaded: true,
           actors: data.results,
           movies: (data.results.map(result => result.known_for)).flat()
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
         });
       });
   }
 
-  // const moviesArrayBuilder(arr) => {
-  //   const movies = [];
-  //   arr.forEach((element) => {
-  //     movies.push(element.known_for);
-  //   });
-  //   return movies;
-  //   }
-  // }
-
   render() {
     const { error, isLoaded, actors, movies } = this.state;
-    if (error) {
-      return <div>Erreur : {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Chargement…</div>;
-    } else {
-      return (
-        <div>
 
-        </div>
+      return (
+        <ul>
+          {actors.map(actor => (
+            <li key={actor.id}>
+              Did {actor.name} play in YYY?
+            </li>
+          ))}
+        </ul>
       );
-    }
   }
 }
-
-export default QuestionBox;
+export default QuestionList;
