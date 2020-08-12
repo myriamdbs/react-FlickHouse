@@ -12,4 +12,21 @@ body {
 .welcome-message {
   color: #2020d6;
   text-align: center;
+
+}
+
+button {
+  margin-top: 30px;
+  background-color: #2020d6;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bolder;
+
+}
+
+.app-container {
+  margin-right: 70px;
+  margin-left: 70px;
+  text-align: center;
 }
