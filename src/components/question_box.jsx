@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 
 
 class QuestionBox extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       actors: [],
       movies: [],
-      error: null,
-      isLoaded: false
+      options: ['Yes', 'No']
     };
   }
 
@@ -18,41 +16,20 @@ class QuestionBox extends Component {
       .then(response => response.json())
       .then((data) => {
         this.setState({
-          isLoaded: true,
           actors: data.results,
           movies: (data.results.map(result => result.known_for)).flat()
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
         });
       });
   }
 
-  // const moviesArrayBuilder(arr) => {
-  //   const movies = [];
-  //   arr.forEach((element) => {
-  //     movies.push(element.known_for);
-  //   });
-  //   return movies;
-  //   }
-  // }
-
   render() {
-    const { error, isLoaded, actors, movies } = this.state;
-    if (error) {
-      return <div>Erreur : {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Chargement…</div>;
-    } else {
-      return (
-        <div>
-
-        </div>
-      );
-    }
+    const { actors, movies, options } = this.state;
+    return (
+      <div>
+        <h2>Did Julia Roberts play in Pretty Woman ? </h2>
+        <button>{ options[0] }</button> || <button>{ options[1] }</button>
+      </div>
+    );
   }
 }
 

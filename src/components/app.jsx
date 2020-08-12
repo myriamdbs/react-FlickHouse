@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import WelcomeMessage from './welcome_message';
-// import QuestionList from './questions_list';
+import QuestionBox from './question_box';
 // import { quizzData } from '../services/quiz_data';
 
 class App extends Component {
@@ -9,14 +9,16 @@ class App extends Component {
     super(props);
     this.state = {
       welcomeMsgDisplayed: true,
-      startBtnDisplayed: true
+      startBtnDisplayed: true,
+      quizzStarted: false
     };
   }
 
   handleStartQuizz = () => {
     this.setState({
       welcomeMsgDisplayed: false,
-      startBtnDisplayed: false
+      startBtnDisplayed: false,
+      quizzStarted: true
     });
   }
 
@@ -30,11 +32,19 @@ class App extends Component {
     if (this.state.startBtnDisplayed) {
       startBtn = <button onClick={this.handleStartQuizz}>Start</button>;
     }
+
+    let question;
+    if (this.state.quizzStarted){
+      question = <QuestionBox />
+    };
+
     return (
       <div className="app-container">
         { message }
         { startBtn }
+        { question }
       </div>
+
     );
   }
 }

@@ -22,7 +22,12 @@ button {
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bolder;
-
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  &:hover {
+    background-color: #2020d6;
+    opacity: 0.85;
+    transition: ease 0.2s;
+  }
 }
 
 .app-container {
