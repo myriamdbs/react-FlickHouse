@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 
 
-class QuestionBox extends Component {
+class QuestionBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      actors: [],
-      movies: [],
-      options: ['Yes', 'No']
+      actors: ['', '', '', ''],
+      movies: ['', '', '', ''],
+      dataLoaded: false,
+      answer: null,
+      userAnswer:null,
+      randomIndexForActor: null,
+      randomIndexForMovies: null
     };
   }
 
@@ -17,17 +21,32 @@ class QuestionBox extends Component {
       .then((data) => {
         this.setState({
           actors: data.results,
-          movies: (data.results.map(result => result.known_for)).flat()
+          movies: (data.results.map(result => result.known_for)).flat(),
         });
       });
+    this.setState({
+      randomIndexForActor: Math.floor((Math.random() * this.state.actors.length)),
+      randomIndexForMovies: Math.floor((Math.random() * this.state.movies.length)),
+      dataLoaded: true
+    });
+  }
+
+  getUserAnswer = (e) => {
+    this.setState({
+      userAnswer: e.target.dataset.option
+    });
   }
 
   render() {
-    const { actors, movies, options } = this.state;
+    const { actors, movies, randomIndexForActor, randomIndexForMovies } = this.state;
+    let question;
+    if (this.state.dataLoaded) {
+      question = <h2>Did { actors[randomIndexForActor]['name'] } play in { movies[randomIndexForMovies]['name'] || movies[randomIndexForMovies]['title']} ? </h2>;
+    }
     return (
       <div>
-        <h2>Did Julia Roberts play in Pretty Woman ? </h2>
-        <button>{ options[0] }</button> || <button>{ options[1] }</button>
+        { question }
+        <button data-option='yes' onClick={this.getUserAnswer}>Yes</button> || <button data-option='no' onClick={this.getUserAnswer}>No</button>
       </div>
     );
   }

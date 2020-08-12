@@ -6,7 +6,7 @@ class WelcomeMessage extends Component {
       <div className="welcome-message">
         <h1>Welcome to the Flickhouse quizz !
           <br/>You'll be asked a series of "Yes or No" questions.
-          <br/>Do your best 😉
+          <br/>Do your best 🎥
         </h1>
       </div>
     );
