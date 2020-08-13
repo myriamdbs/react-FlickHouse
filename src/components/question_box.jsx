@@ -5,8 +5,8 @@ class QuestionBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      actors: ['', '', '', ''],
-      movies: ['', '', '', ''],
+      actors: [],
+      movies: [],
       dataLoaded: false,
       answer: null,
       userAnswer:null,
@@ -22,12 +22,13 @@ class QuestionBox extends React.Component {
         this.setState({
           actors: data.results,
           movies: (data.results.map(result => result.known_for)).flat(),
+          dataLoaded: true
         });
       });
     this.setState({
       randomIndexForActor: Math.floor((Math.random() * this.state.actors.length)),
       randomIndexForMovies: Math.floor((Math.random() * this.state.movies.length)),
-      dataLoaded: true
+
     });
   }
 
