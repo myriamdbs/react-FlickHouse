@@ -35,6 +35,7 @@ class QuestionBox extends React.Component {
   getAnswerFromApi = async (movieId, actorId) => {
     const credits = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.API_TMBD_KEY}`)
       .then(response => response.json());
+    console.log(credits.cast);
     const answerViaCredit = credits.cast.some(credit => credit.id === actorId);
     if (answerViaCredit) {
       this.setState({
@@ -56,8 +57,7 @@ class QuestionBox extends React.Component {
     const movieId = e.target.dataset.movie;
     this.getAnswerFromApi(actorId);
 
-    // compare answer & userAnswer
-    // display win/loose msg to user
+
   }
 
   render() {
@@ -70,12 +70,24 @@ class QuestionBox extends React.Component {
       yesButton = <button data-option='yes' data-actor={ actors[randomIndexForActor]['id']} data-movie= { movies[randomIndexForMovies]['id'] } onClick={this.getUserAnswer}>Yes</button>;
       noButton = <button data-option='no' onClick={this.getUserAnswer}>No</button>;
     }
+
+    // compare answer & userAnswer
+    let winMessage;
+    let looseMessage;
+    if (this.state.userAnswer === this.state.answer && this.state.answer !== null) {
+      winMessage = <h3>Good answer ! Well done 💪</h3>;
+    } else if (this.state.userAnswer !== this.state.answer && this.state.answer !== null) {
+      looseMessage = <h3> Wrong answer 😕</h3>;
+    }
+    // display win/loose msg to user
     return (
       <div>
         { question }
         { yesButton }
         ||
         { noButton }
+        { winMessage }
+        { looseMessage }
       </div>
     );
   }
