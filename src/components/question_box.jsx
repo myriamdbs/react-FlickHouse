@@ -15,6 +15,7 @@ class QuestionBox extends React.Component {
     };
   }
 
+
   componentDidMount() {
     fetch(`https://api.themoviedb.org/3/person/popular?api_key=${process.env.API_TMBD_KEY}&language=en-US&page=1`)
       .then(response => response.json())
@@ -26,28 +27,55 @@ class QuestionBox extends React.Component {
         });
       });
     this.setState({
-      randomIndexForActor: Math.floor((Math.random() * this.state.actors.length)),
-      randomIndexForMovies: Math.floor((Math.random() * this.state.movies.length)),
-
+      randomIndexForActor: Math.floor((Math.random() * 20)),
+      randomIndexForMovies: Math.floor((Math.random() * 58)),
     });
+  }
+
+  getAnswerFromApi = async (movieId, actorId) => {
+    const credits = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.API_TMBD_KEY}`)
+      .then(response => response.json());
+    const answerViaCredit = credits.cast.some(credit => credit.id === actorId);
+    if (answerViaCredit) {
+      this.setState({
+        answer: 'yes'
+      });
+    } else {
+      this.setState({
+        answer: 'no'
+      });
+    }
   }
 
   getUserAnswer = (e) => {
     this.setState({
       userAnswer: e.target.dataset.option
     });
+    // search answer on API
+    const actorId = e.target.dataset.actor;
+    const movieId = e.target.dataset.movie;
+    this.getAnswerFromApi(actorId);
+
+    // compare answer & userAnswer
+    // display win/loose msg to user
   }
 
   render() {
     const { actors, movies, randomIndexForActor, randomIndexForMovies } = this.state;
     let question;
+    let yesButton;
+    let noButton;
     if (this.state.dataLoaded) {
       question = <h2>Did { actors[randomIndexForActor]['name'] } play in { movies[randomIndexForMovies]['name'] || movies[randomIndexForMovies]['title']} ? </h2>;
+      yesButton = <button data-option='yes' data-actor={ actors[randomIndexForActor]['id']} data-movie= { movies[randomIndexForMovies]['id'] } onClick={this.getUserAnswer}>Yes</button>;
+      noButton = <button data-option='no' onClick={this.getUserAnswer}>No</button>;
     }
     return (
       <div>
         { question }
-        <button data-option='yes' onClick={this.getUserAnswer}>Yes</button> || <button data-option='no' onClick={this.getUserAnswer}>No</button>
+        { yesButton }
+        ||
+        { noButton }
       </div>
     );
   }
