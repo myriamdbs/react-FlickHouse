@@ -33,19 +33,19 @@ class QuestionBox extends React.Component {
   }
 
   getAnswerFromApi = async (movieId, actorId) => {
-    const credits = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.API_TMBD_KEY}`)
-      .then(response => response.json());
-    console.log(credits.cast);
-    const answerViaCredit = credits.cast.some(credit => credit.id === actorId);
-    if (answerViaCredit) {
-      this.setState({
-        answer: 'yes'
+    await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.API_TMBD_KEY}`)
+      .then(response => response.json())
+      .then((data) => {
+        if (data.cast.some(credit => credit.id === actorId)) {
+          this.setState({
+            answer: 'yes',
+          });
+        } else {
+          this.setState({
+            answer: 'no',
+          });
+        }
       });
-    } else {
-      this.setState({
-        answer: 'no'
-      });
-    }
   }
 
   getUserAnswer = (e) => {
@@ -56,8 +56,6 @@ class QuestionBox extends React.Component {
     const actorId = e.target.dataset.actor;
     const movieId = e.target.dataset.movie;
     this.getAnswerFromApi(actorId);
-
-
   }
 
   render() {
@@ -65,27 +63,34 @@ class QuestionBox extends React.Component {
     let question;
     let yesButton;
     let noButton;
+    let countdown;
     if (this.state.dataLoaded) {
-      question = <h2>Did { actors[randomIndexForActor]['name'] } play in { movies[randomIndexForMovies]['name'] || movies[randomIndexForMovies]['title']} ? </h2>;
-      yesButton = <button data-option='yes' data-actor={ actors[randomIndexForActor]['id']} data-movie= { movies[randomIndexForMovies]['id'] } onClick={this.getUserAnswer}>Yes</button>;
-      noButton = <button data-option='no' onClick={this.getUserAnswer}>No</button>;
+      question = <h2>Did <span>{ actors[randomIndexForActor]['name'] }</span> play in <span>{ movies[randomIndexForMovies]['name'] || movies[randomIndexForMovies]['title']}</span> ? </h2>;
+      yesButton = <button className="yes-btn" data-option='yes' data-actor={ actors[randomIndexForActor]['id']} data-movie={ movies[randomIndexForMovies]['id'] } onClick={this.getUserAnswer}>Yes</button>;
+      noButton = <button className="no-btn" data-option='no' data-actor={ actors[randomIndexForActor]['id']} data-movie={ movies[randomIndexForMovies]['id'] } onClick={this.getUserAnswer}>No</button>;
+      countdown = <img src='../../assets/countdown.gif' alt="cinema countdown"/>;
     }
 
-    // compare answer & userAnswer
     let winMessage;
     let looseMessage;
     if (this.state.userAnswer === this.state.answer && this.state.answer !== null) {
-      winMessage = <h3>Good answer ! Well done 💪</h3>;
-    } else if (this.state.userAnswer !== this.state.answer && this.state.answer !== null) {
-      looseMessage = <h3> Wrong answer 😕</h3>;
-    }
-    // display win/loose msg to user
+      winMessage = <h3>Good answer ! Well done 💪</h3>}
+    else if (this.state.userAnswer !== this.state.answer && this.state.answer !== null) {
+      looseMessage = <h3> Wrong answer 😕</h3>;}
+
     return (
-      <div>
-        { question }
-        { yesButton }
-        ||
-        { noButton }
+      <div className="question-box">
+        <div className="countdown">
+          { countdown }
+        </div>
+        <div className="question">
+          { question }
+        </div>
+        <div>
+          { yesButton }
+           ||
+          { noButton }
+        </div>
         { winMessage }
         { looseMessage }
       </div>

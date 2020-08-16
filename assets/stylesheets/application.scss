@@ -1,22 +1,30 @@
 body {
   font-family: Helvetica;
+  background: linear-gradient(#86cca6, #16B6DF)
+}
+
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 35px;
 }
 
 #root {
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  justify-content:center;
 }
 
-.welcome-message {
-  color: #2020d6;
-  text-align: center;
+.app-container {
+  width: 920px;
+  padding: 50px;
 
 }
 
 button {
-  margin-top: 30px;
+  margin-top: 25px;
   background-color: #2020d6;
   color: white;
   padding: 10px 20px;
@@ -30,8 +38,38 @@ button {
   }
 }
 
-.app-container {
-  margin-right: 70px;
-  margin-left: 70px;
+.welcome-message {
+  color: #2020d6;
+  font-weight: bold;
+  h3 {
+    color: rgba(245,245,245,1);
+  }
+}
+
+.question-box {
   text-align: center;
+  span {
+    color:#2020d6;
+  }
+  button {
+    background-color: white;
+
+  }
+}
+
+.yes-btn {
+  color: green;
+}
+
+.no-btn {
+  color: red;
+}
+.countdown {
+  margin-bottom: 50px;
+}
+
+.film-image {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
 }

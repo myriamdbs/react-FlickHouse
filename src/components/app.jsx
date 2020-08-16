@@ -29,8 +29,10 @@ class App extends Component {
     }
 
     let startBtn;
+    let filmImage;
     if (this.state.startBtnDisplayed) {
       startBtn = <button onClick={this.handleStartQuizz}>Start</button>;
+      filmImage = <img src="../../assets/cinebande.gif" alt="film"/>;
     }
 
     let question;
@@ -40,9 +42,16 @@ class App extends Component {
 
     return (
       <div className="app-container">
-        { message }
-        { startBtn }
-        { question }
+        <div className="home-container-left">
+          { message }
+          { startBtn }
+          <div className="film-image">
+            { filmImage }
+          </div>
+        </div>
+        <div>
+          { question }
+        </div>
       </div>
 
     );
