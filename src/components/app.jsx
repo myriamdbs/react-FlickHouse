@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       welcomeMsgDisplayed: true,
       startBtnDisplayed: true,
-      quizzStarted: false
+      quizzStarted: false,
+      score: 0
     };
   }
 

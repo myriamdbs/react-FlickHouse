@@ -58,6 +58,10 @@ class QuestionBox extends React.Component {
     this.getAnswerFromApi(actorId);
   }
 
+  // handleClick = (e) => {
+  //   this.props.onNextClick(e.target.score + 1);
+  // }
+
   render() {
     const { actors, movies, randomIndexForActor, randomIndexForMovies } = this.state;
     let question;
@@ -73,10 +77,14 @@ class QuestionBox extends React.Component {
 
     let winMessage;
     let looseMessage;
+    let nextBtn;
+
     if (this.state.userAnswer === this.state.answer && this.state.answer !== null) {
-      winMessage = <h3>Good answer ! Well done 💪</h3>}
+      winMessage = <h3>Good answer ! Well done 💪</h3>;
+      nextBtn = <button onClick={this.handleClick}>Next Question</button> }
     else if (this.state.userAnswer !== this.state.answer && this.state.answer !== null) {
-      looseMessage = <h3> Wrong answer 😕</h3>;}
+      looseMessage = <h3> Wrong answer 😕</h3>;
+    }
 
     return (
       <div className="question-box">
@@ -93,6 +101,7 @@ class QuestionBox extends React.Component {
         </div>
         { winMessage }
         { looseMessage }
+        { nextBtn }
       </div>
     );
   }

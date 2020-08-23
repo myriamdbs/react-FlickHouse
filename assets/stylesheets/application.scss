@@ -54,18 +54,22 @@ button {
   span {
     color:#2020d6;
   }
-  button {
-    background-color: white;
-
-  }
 }
 
 .yes-btn {
   color: green;
+  background-color: white;
+  &:hover {
+    background-color: #b2d7e0;
+  }
 }
 
 .no-btn {
   color: red;
+  background-color: white;
+  &:hover {
+    background-color: #b2d7e0;
+  }
 }
 .countdown {
   margin-bottom: 50px;
